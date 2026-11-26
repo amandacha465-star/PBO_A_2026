@@ -1,46 +1,48 @@
-class Kendaraan {
+const pembersih = {
+  bersihkan() {
+    console.log(`${this.nama} membersihkan ruangan.`);
+  }
+};
+
+const pengantar = {
+  antarPaket() {
+    console.log(`${this.nama} mengantar paket.`);
+  }
+};
+
+const penjaga = {
+  patroli() {
+    console.log(`${this.nama} berpatroli di area.`);
+  }
+};
+
+function applyCapabilities(Kelas, ...kemampuan) {
+  for (const cap of kemampuan) {
+    Object.assign(Kelas.prototype, cap);
+  }
+}
+
+class RobotRumah {
   constructor(nama) {
     this.nama = nama;
   }
+}
 
-  info() {
-    console.log(`Kendaraan: ${this.nama}`);
+class RobotKurir {
+  constructor(nama) {
+    this.nama = nama;
   }
 }
 
-class KendaraanBensin extends Kendaraan {
-  isiBensin(liter) {
-    console.log(`${this.nama} mengisi bensin ${liter} liter.`);
-  }
-}
+applyCapabilities(RobotRumah, pembersih, penjaga);
+applyCapabilities(RobotKurir, pengantar);
 
-class KendaraanListrik extends Kendaraan {
-  isiDaya(kwh) {
-    console.log(`${this.nama} mengisi daya ${kwh} kWh.`);
-  }
-}
+const robotRumah = new RobotRumah("RobotRumah_3638");
+const robotKurir = new RobotKurir("RobotKurir_3638");
 
-class MobilBensin extends KendaraanBensin {}
+robotRumah.bersihkan();
+robotRumah.patroli();
+robotKurir.antarPaket();
 
-class MobilListrik extends KendaraanListrik {}
-
-class MotorBensin extends KendaraanBensin {}
-
-function isiSemuaBensin(daftar) {
-  daftar.forEach((x) => x.isiBensin(20));
-}
-
-function isiSemuaDaya(daftar) {
-  daftar.forEach((x) => x.isiDaya(400));
-}
-
-const avanza = new MobilBensin("Avanza_3638");
-const ioniq = new MobilListrik("Ioniq_3638");
-const beat = new MotorBensin("Beat_3638");
-
-avanza.info();
-ioniq.info();
-beat.info();
-
-isiSemuaBensin([avanza, beat]);
-isiSemuaDaya([ioniq]);
+console.log(`RobotKurir_XXXX bisa membersihkan? ${typeof robotKurir.bersihkan === "function"}`);
+console.log(`RobotRumah_XXXX bisa mengantar paket? ${typeof robotRumah.antarPaket === "function"}`);
